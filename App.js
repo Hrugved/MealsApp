@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import * as Font from "expo-font";
-import {AppLoading} from 'expo'
+import { AppLoading } from "expo";
+import {enableScreens} from 'react-native-screens'
 
 import MealsNavigator from "./navigation/MealsNavigator";
 
+enableScreens() // performance...android->Fragments and ios->UI-view-controller
+
 const fetchFonts = () => {
-  return Font.loadAsync([
-    { "open-sans": require("./assets/fonts/OpenSans-Regular.ttf") },
-    { "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf") },
-  ]);
+  return Font.loadAsync({
+    "open-sans": require('./assets/fonts/OpenSans-Regular.ttf'),
+    "open-sans-bold": require('./assets/fonts/OpenSans-Bold.ttf'),
+  });
 };
 
 export default function App() {
@@ -20,6 +23,7 @@ export default function App() {
       <AppLoading
         startAsync={fetchFonts}
         onFinish={() => setAssetsLoaded(true)}
+        onError={() => console.log(error)}
       />
     );
   }
