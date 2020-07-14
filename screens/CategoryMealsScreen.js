@@ -1,7 +1,6 @@
 import React from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
 
-import MealItem from "../components/MealItem";
+import MealList from '../components/MealList'
 
 import { CATEGORIES, MEALS } from "../data/dummy-data";
 
@@ -10,29 +9,10 @@ const CategoryMealsScreen = ({ navigation }) => {
   const displayedMeals = MEALS.filter(
     (meal) => meal.categoryIds.indexOf(catId) >= 0
   );
-  const renderMealItem = ({ item }) => (
-    <MealItem
-      title={item.title}
-      imageUrl={item.imageUrl}
-      affordability={item.affordability}
-      duration={item.duration}
-      complexity={item.complexity}
-      onSelect={() => navigation.navigate('MealDetail',{
-        mealId: item.id
-      })}
-    />
-  );
+  
 
   return (
-    <View style={styles.screen}>
-      <FlatList
-        data={displayedMeals}
-        keyExtractor={(item, _) => item.id}
-        renderItem={renderMealItem}
-        style={{ width: "100%"}}
-        contentContainerStyle={{alignItems: 'center'}}
-      />
-    </View>
+    <MealList data={displayedMeals} navigation={navigation} />
   );
 };
 
@@ -43,13 +23,5 @@ CategoryMealsScreen.navigationOptions = ({ navigation }) => {
     headerTitle: selectedCategory.title,
   };
 };
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
 
 export default CategoryMealsScreen;

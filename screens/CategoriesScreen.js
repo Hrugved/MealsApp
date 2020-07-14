@@ -8,10 +8,11 @@ import {
   TouchableOpacity,
   Platform,
 } from "react-native";
+import { Item, HeaderButtons } from "react-navigation-header-buttons";
 
 import GridItem from "../components/GridItem";
-
-import Colors from "../constans/colors";
+import HeaderButton from "../components/HeaderButton";
+import Colors from "../constants/colors";
 import { CATEGORIES } from "../data/dummy-data";
 
 const CategoriesScreen = ({ navigation }) => {
@@ -36,6 +37,21 @@ const CategoriesScreen = ({ navigation }) => {
       numColumns={2}
     />
   );
+};
+
+CategoriesScreen.navigationOptions = ({navigation}) => {
+  return {
+    headerTitle: 'Meal Categories',
+    headerLeft: () => (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          title="menu"
+          iconName="ios-menu"
+          onPress={() => {navigation.toggleDrawer()}}
+        />
+      </HeaderButtons>
+    ),
+  };
 };
 
 const styles = StyleSheet.create({

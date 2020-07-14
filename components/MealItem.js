@@ -8,7 +8,8 @@ import {
   TouchableNativeFeedback,
   ImageBackground,
 } from "react-native";
-import { hide } from "expo/build/launch/SplashScreen";
+
+import DefaultText from './DefaultText'
 
 const GridItem = ({ onSelect, title, duration, complexity, affordability, imageUrl}) => {
   let TouchCmp = TouchableOpacity;
@@ -25,9 +26,9 @@ const GridItem = ({ onSelect, title, duration, complexity, affordability, imageU
             </ImageBackground>
           </View>
           <View style={{...styles.mealRow,...styles.mealDetail}}>
-            <Text>{duration}m</Text>
-            <Text>{complexity.toUpperCase()}</Text>
-            <Text>{affordability.toUpperCase()}</Text>
+            <DefaultText>{duration}m</DefaultText>
+            <DefaultText>{complexity.toUpperCase()}</DefaultText>
+            <DefaultText>{affordability.toUpperCase()}</DefaultText>
           </View>
         </View>
       </TouchCmp>
