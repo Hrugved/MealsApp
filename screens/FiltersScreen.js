@@ -4,6 +4,8 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import HeaderButton from "../components/HeaderButton";
 import Colors from '../constants/colors'
+import { useDispatch } from "react-redux";
+import { setFilters } from "../store/actions/meals";
 
 const FilterSwitch = ({label,state,onChange}) => {
   return (
@@ -25,14 +27,17 @@ const FiltersScreen = ({navigation}) => {
   const [isVegan, setIsVegan] = useState(false);
   const [isVegetarian, setIsVegetarian]= useState(false);
 
+  const dispatch = useDispatch()
+
   const saveFilters = useCallback(() => { // useCallback <= it will prevent create infinte loop
     const appliedFilters = {
-      gluten: isGlutenFree,
-      lactose: isLactoseFree,
+      glutenFree: isGlutenFree,
+      lactoseFree: isLactoseFree,
       vegan: isVegan,
       vegetarian: isVegetarian
     }
-  }, [isGlutenFree,isLactoseFree,isVegan,isVegetarian])
+    dispatch(setFilters(appliedFilters))
+  }, [isGlutenFree,isLactoseFree,isVegan,isVegetarian,dispatch])
 
   useEffect(() => {
     navigation.setParams({'save': saveFilters})

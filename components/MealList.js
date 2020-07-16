@@ -13,7 +13,8 @@ const MealList = ({ data, navigation }) => {
       duration={item.duration}
       complexity={item.complexity}
       onSelect={() => navigation.navigate('MealDetail',{
-        mealId: item.id
+        mealId: item.id,
+        mealTitle: item.title
       })}
     />
   );

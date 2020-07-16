@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
+import {useSelector, useDispatch} from 'react-redux'
 import {View,Text,StyleSheet,ScrollView,Image} from 'react-native'
 
 import HeaderButton from '../components/HeaderButton'
-import { MEALS } from '../data/dummy-data';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import DefaultText from '../components/DefaultText'
+import { toggleFavourite } from '../store/actions/meals';
 
 
 const ListItem = props => (
@@ -16,7 +17,23 @@ const ListItem = props => (
 const MealDetailScreen = ({navigation}) => {
 
   const mealId = navigation.getParam('mealId')
+  const MEALS = useSelector(state => state.meals.meals)
   const meal = MEALS.find(meal => meal.id===mealId)
+  const isFavourite = useSelector(state => state.meals.favoriteMeals.some(item => item.id===mealId))
+
+  const dispatch = useDispatch()
+
+  const toggleFavouriteHandler = useCallback(() => {
+    dispatch(toggleFavourite(mealId))
+  }, [dispatch,mealId])
+
+  useEffect(() => {
+    navigation.setParams({toggleFav: toggleFavouriteHandler})
+  }, [toggleFavouriteHandler])
+
+  useEffect(() => {
+    navigation.setParams({isFavourite: isFavourite})
+  },[isFavourite])
 
   return (
     <ScrollView>
@@ -37,13 +54,14 @@ const MealDetailScreen = ({navigation}) => {
 }
 
 MealDetailScreen.navigationOptions = ({navigation}) => {
-  const mealId = navigation.getParam('mealId')
-  const meal = MEALS.find(meal => meal.id===mealId)
+  const mealTitle = navigation.getParam('mealTitle')
+  const toggleFavourite = navigation.getParam('toggleFav')
+  const isFavourite = navigation.getParam('isFavourite')
   return {
-    headerTitle: meal.title,
-    headerRight: (
+    headerTitle: mealTitle,
+    headerRight: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item title='Favourite' iconName='ios-star' onPress={null} />
+        <Item title='Favourite' iconName={isFavourite ? 'ios-star' : 'ios-star-outline'} onPress={toggleFavourite} />
       </HeaderButtons> 
     )
   }
